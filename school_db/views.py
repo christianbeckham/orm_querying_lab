@@ -12,9 +12,7 @@ from .const_data import view_information
 # Find all students and print their first_name, last_name, and GPA to the terminal
 # Example solution:
 def example_solution(request):
-
     students = Student.objects.all()
-
     for student in students:
         print(
             f'First Name: {student.first_name} Last Name: {student.last_name} GPA: {student.gpa}')
@@ -59,11 +57,11 @@ SELECT `school_db_student`.`id`,
 # Order the data by highest GPAs first (descending).
 # Print out each student's full name and gpa to the terminal
 def problem_one(request):
-
     print('\nPROBLEM 1')
     students = Student.objects.filter(gpa__gt=3).order_by('-gpa')
     for student in students:
-        print('Full name:', student.first_name, student.last_name, 'GPA:', student.gpa)
+        print('Full name:', student.first_name,
+              student.last_name, 'GPA:', student.gpa)
 
     return complete(request)
 
@@ -291,7 +289,6 @@ VALUES ('Kyle', 'Harwood', 2022, 3.0)
 # Then query the studets table to get that student by their id
 # Print the new student's id, full name, and gpa to the terminal
 def problem_six(request):
-
     print('\nPROBLEM 6')
     # Make sure to set this equal to the primary key of the row you just created!
     student_id = 11
@@ -345,7 +342,6 @@ LIMIT 21
 # Delete the student that you have created and updated
 # Check your MySQL Workbench to confirm the student is no longer in the table!
 def problem_seven(request):
-
     print('\nPROBLEM 7')
     # Make sure to set this equal to the primary key of the row you just created!
     student_id = 11
@@ -357,7 +353,6 @@ def problem_seven(request):
         print('Great! It failed and couldnt find the object because we deleted it!')
 
     return complete(request)
-
 
 
 # Supporting Query Method Documentation:
@@ -407,8 +402,8 @@ SELECT `school_db_student`.`id`,
 # Find all of the instructors that only belong to a single course
 # Print out the instructors full name and number of courses to the console
 def bonus_problem(request):
-    # courses = Course.objects.annotate(Count('instructor__id'))
-    instructors = Instructor.objects.annotate(Count('course__id')).filter(course__id__count=1)
+    instructors = Instructor.objects.annotate(
+        Count('course__id')).filter(course__id__count=1)
 
     for instructor in instructors:
         print('Instructor name:', instructor.first_name, instructor.last_name)
